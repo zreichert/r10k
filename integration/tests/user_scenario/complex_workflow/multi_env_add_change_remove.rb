@@ -44,6 +44,7 @@ stage_env_custom_mod_manifest = <<-MANIFEST
   }
 MANIFEST
 
+require 'pry', binding.pry
 site_pp_path = File.join(git_environments_path, 'manifests', 'site.pp')
 original_site_pp = create_site_pp(master_certname, '  include helloworld')
 prod_env_motd_site_pp = create_site_pp(master_certname, prod_env_motd_manifest)
@@ -67,6 +68,7 @@ end
 step 'Stub Forge on Master'
 stub_forge_on(master)
 
+require 'pry', binding.pry
 initial_env_names.each do |env|
   if env == 'production'
     step "Checkout \"#{env}\" Branch"
@@ -90,9 +92,11 @@ initial_env_names.each do |env|
   end
 end
 
+require 'pry', binding.pry
 #Tests
 step 'Deploy Environments via r10k'
 on(master, 'r10k deploy environment -v')
+require 'pry', binding.pry
 
 #Initial Verification
 initial_env_names.each do |env|
