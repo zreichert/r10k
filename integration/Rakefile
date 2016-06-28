@@ -39,3 +39,12 @@ rototiller_task :beaker_hostgenerator do |t|
 
   t.add_flag(:name => '--global-config', :default => '{forge_host=forge-aio01-petest.puppetlabs.com}', :override_env => 'BHG_GLOBAL_CONFIG')
 end
+
+desc 'Nerissa run this task!'
+task :play_with_r10k do
+  ENV['GIT_PROVIDER'] = 'shellgit'
+  ENV['BEAKER_PE_DIR'] = 'http://neptune.puppetlabs.lan/2016.2/ci-ready'
+  ENV['BEAKER_PRESERVE_HOSTS'] = 'never'
+  ENV['BEAKER_TESTS'] = 'tests/Puppetfile/HTTPS_PROXY_effects_git_source.rb'
+  Rake::Task[:acceptance].invoke
+end
